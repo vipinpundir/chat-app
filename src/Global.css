@@ -1,0 +1,159 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.App {
+    min-height: 100vh;
+    min-width: 100vw;
+    background-image: url(./assets/bg.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.App::before {
+    content: '';
+    position: absolute;
+    min-height: 100vh;
+    min-width: 100vw;
+    background-color: #00000067;
+    top: 0;
+    z-index: 0;
+}
+
+.Login,
+.Signup {
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    position: relative;
+    z-index: 10;
+}
+
+.Login Form,
+.Signup Form {
+    color: #fff;
+    margin: auto;
+    width: 500px;
+    padding: 30px;
+    border: 1px solid #ffffff05;
+    backdrop-filter: blur(5px);
+}
+
+.Home {
+    position: relative;
+    z-index: 0;
+    height: 100vh;
+    max-width: 100vw;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Home .LogoutBtn {
+    position: absolute;
+    bottom: 8vh;
+    left: 15vw;
+    width: fit-content;
+}
+
+.Home .Row {
+    width: 70vw;
+    height: 72vh;
+    backdrop-filter: blur(10px);
+}
+
+.Home .Row .Col{
+    width: 100%;
+    height: 72vh;
+    overflow: auto;
+}
+
+.Home .Row .Col {
+    border-right: 1px solid rgba(0, 0, 0, 0.329);
+}
+.Home .Row .Col::-webkit-scrollbar,
+.Home .Row .ChatBox::-webkit-scrollbar {
+    width: 0px;
+  }
+
+.Sidebar .sidebar {
+    width: 100%;
+    height: fit-content;
+    cursor: pointer;
+}
+
+.Sidebar .sidebar img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.Home .ChatBox{
+    width: 100%;
+    height: 72vh;
+    overflow: auto;
+}
+.Home .ChatBox h6{
+    position: absolute;
+    width: 33vw;
+    top: 0;
+    padding: 10px 0;
+    padding-left: 10px;
+    background-color: #00000067;
+}
+
+.Chats{
+    width: 100%;
+    word-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+}
+
+.Chats .Sender,
+.Chats .Receiver {
+    list-style: none;
+    background-color: #00000067;
+    margin: 5px 0;
+    padding: 6px 20px;
+    width: fit-content;
+    border-radius: 20px;
+  
+  }
+  
+  .Chats .Sender {
+    align-self: flex-end;
+  }
+  
+
+.ChatBox .Chat-input{
+    position: absolute;
+    width: 33vw;
+    bottom: 0;
+    padding-left: 10px;
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+}
+.ChatBox .Chat-input input{
+    width: 100%;
+    border-radius: 7px;
+    border: none;
+    padding-left: 10px;
+}
+.ChatBox .Chat-input input:focus-visible{
+outline: none;
+}
+.ChatBox .Chat-input Button{
+    max-width: fit-content;
+}
+.loading{
+    display: flex;
+    background-color: #00000067;
+    padding: 10px 20px;
+    position: fixed;
+}

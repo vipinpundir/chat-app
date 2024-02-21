@@ -1,8 +1,13 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './Global.css';
+import MyRoutes from './Routes/MyRoutes';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
     <div className="App">
-      <h1>Chatify...</h1>
+      <MyRoutes/>
+      <Toaster />
     </div>
   );
 }
