@@ -9,7 +9,6 @@ import Spinner from 'react-bootstrap/Spinner';
 
 
 const Home = () => {
-
   const { authUser, setAuthUser } = useContext(AuthContext)
   const [users, setUsers] = useState([])
   const [userChats, setUserChats] = useState([])
@@ -22,7 +21,7 @@ const Home = () => {
     // get all users after login
     setLoading(true)
     const getUsers = async () => {
-
+      
       try {
         const res = await fetch(`/api/users`, {
           method: "POST",
@@ -43,7 +42,7 @@ const Home = () => {
       } catch (error) {
         toast.error(error.message)
         console.log(error)
-      }finally{
+      } finally {
         setLoading(false)
 
       }
@@ -51,7 +50,7 @@ const Home = () => {
 
     getUsers()
 
-  }, [authUser])
+  }, [authUser._id])
 
   // Handle Logout 
   const handleLogout = async () => {
@@ -71,7 +70,7 @@ const Home = () => {
 
     } catch (error) {
       toast.error(error.message)
-    }finally{
+    } finally {
       setLoading(false)
 
     }
@@ -104,7 +103,7 @@ const Home = () => {
       } catch (error) {
         toast.error(error.message)
         console.log(error)
-      }finally{
+      } finally {
         setLoading(false)
 
       }
@@ -113,8 +112,6 @@ const Home = () => {
     getUserMessages()
 
   }
-
-
 
   // handleSendMessageToUser
   const handleSendMessageToUser = () => {
@@ -135,13 +132,10 @@ const Home = () => {
           throw new Error(resData.error)
         }
 
-        console.log(resData, "sendSucessfully")
-
-
       } catch (error) {
         toast.error(error.message)
         console.log(error)
-      }finally{
+      } finally {
         setLoading(false)
 
       }
@@ -151,16 +145,23 @@ const Home = () => {
     setSendMessageData('')
 
   }
+  const timeFormatted = (time) => {
+    let timestamp = time;
+    const date = new Date(timestamp);
+    // Get the time in "hh:mm" format
+    const formattedTime = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    return formattedTime
+  }
 
-
+console.log(userChats,'userchats')
   return (
 
     <div className='Home container'>
 
       <Row className='Row'>
         <Col className='Col'>
-          {users?.map((user) => {
-            return <div onClick={() => { handleChatClick(user) }} > <Sidebar key={user._id} user={user} /></div>
+          {users?.map((user,index) => {
+            return <div onClick={() => { handleChatClick(user) }} > <Sidebar key={user._id} index={index} user={user} /></div>
           })}
         </Col>
 
@@ -171,23 +172,23 @@ const Home = () => {
               <div className="Chats my-5">
                 {userChats.length !== 0
                   ? userChats.map((chat) => {
-                    return <><li className={chat.senderId === authUser._id ? 'Sender' : 'Receiver'} key={chat._id} >{chat.message}</li></>
+                    return <li key={chat._id}  className={chat.senderId === authUser._id ? 'Sender' : 'Receiver'}  > <p>{chat.message} </p> <p className='chatTime' >{timeFormatted(chat.updatedAt)}</p> </li>
                   })
-                  : <><p className='text-center' >Chats not available start conversation...</p></>}
+                  : <><p className='text-center' >Send a message to start conversation...</p></>}
               </div>
               <div className="Chat-input">
                 <input onChange={(e) => setSendMessageData(e.target.value)} value={sendMessageData} placeholder='Type Message' type="text" />
                 <Button onClick={handleSendMessageToUser} >send</Button>
               </div>
             </>
-            : <><p className='text-center' >Hi {authUser.username} 👋 <br /> select a chat to start messaging 💬</p></>}
+            : <><p className='text-center h-100 d-flex justify-content-center align-items-center' >Hi {authUser.username} 👋 <br /> select a chat to start messaging 💬</p></>}
 
         </Col>
 
       </Row>
-       {loading? <div className="loading">
+      {loading ? <div className="loading">
         <Spinner animation="border" /> <p className='m-1' > Loading...</p>
-        </div>:''}
+      </div> : ''}
       <Button className='LogoutBtn' onClick={handleLogout} variant="primary">Logout</Button>
 
     </div>

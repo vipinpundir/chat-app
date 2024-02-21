@@ -66,7 +66,7 @@
     backdrop-filter: blur(10px);
 }
 
-.Home .Row .Col{
+.Home .Row .Col {
     width: 100%;
     height: 72vh;
     overflow: auto;
@@ -75,10 +75,11 @@
 .Home .Row .Col {
     border-right: 1px solid rgba(0, 0, 0, 0.329);
 }
+
 .Home .Row .Col::-webkit-scrollbar,
 .Home .Row .ChatBox::-webkit-scrollbar {
     width: 0px;
-  }
+}
 
 .Sidebar .sidebar {
     width: 100%;
@@ -93,12 +94,13 @@
     margin-right: 10px;
 }
 
-.Home .ChatBox{
+.Home .ChatBox {
     width: 100%;
     height: 72vh;
     overflow: auto;
 }
-.Home .ChatBox h6{
+
+.Home .ChatBox h6 {
     position: absolute;
     width: 33vw;
     top: 0;
@@ -107,7 +109,7 @@
     background-color: #00000067;
 }
 
-.Chats{
+.Chats {
     width: 100%;
     word-wrap: break-word;
     display: flex;
@@ -117,20 +119,38 @@
 .Chats .Sender,
 .Chats .Receiver {
     list-style: none;
-    background-color: #00000067;
     margin: 5px 0;
-    padding: 6px 20px;
     width: fit-content;
-    border-radius: 20px;
-  
-  }
-  
-  .Chats .Sender {
-    align-self: flex-end;
-  }
-  
+}
 
-.ChatBox .Chat-input{
+.Chats .Sender {
+    align-self: flex-end;
+}
+
+.Chats .Sender :nth-child(1),
+.Chats .Receiver :nth-child(1) {
+
+    background-color: #00000067;
+    padding: 6px 20px;
+    border-radius: 20px;
+}
+.Chats .Sender :nth-child(2) {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -16px;
+    margin-bottom: 0px;
+    margin-right: 10px;
+    opacity: 0.3;
+}
+.Chats .Receiver :nth-child(2) {
+    margin-top: -16px;
+    margin-bottom: 0px;
+    opacity: 0.3;
+    margin-left: 10px;
+}
+
+.ChatBox .Chat-input {
     position: absolute;
     width: 33vw;
     bottom: 0;
@@ -139,19 +159,23 @@
     justify-content: space-between;
     gap: 5px;
 }
-.ChatBox .Chat-input input{
+
+.ChatBox .Chat-input input {
     width: 100%;
     border-radius: 7px;
     border: none;
     padding-left: 10px;
 }
-.ChatBox .Chat-input input:focus-visible{
-outline: none;
+
+.ChatBox .Chat-input input:focus-visible {
+    outline: none;
 }
-.ChatBox .Chat-input Button{
+
+.ChatBox .Chat-input Button {
     max-width: fit-content;
 }
-.loading{
+
+.loading {
     display: flex;
     background-color: #00000067;
     padding: 10px 20px;
