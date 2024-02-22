@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { AuthContext } from '../context/authContext';
+import { AuthContext } from '../context/AuthContext';
 
 const Signup = () => {
 

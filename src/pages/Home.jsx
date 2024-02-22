@@ -3,23 +3,24 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import toast from 'react-hot-toast';
-import { AuthContext } from '../context/authContext';
+import { AuthContext } from '../context/AuthContext';
 import Sidebar from '../components/Sidebar';
 import Spinner from 'react-bootstrap/Spinner';
+import { SocketContext } from '../context/SocketContext';
 
 
 const Home = () => {
   const { authUser, setAuthUser } = useContext(AuthContext)
+  const { onlineUsers, socket} = useContext(SocketContext)
   const [users, setUsers] = useState([])
   const [userChats, setUserChats] = useState([])
   const [selectedUser, setSelectedUser] = useState()
   const [sendMessageData, setSendMessageData] = useState('')
-  const [loading, setLoading] = useState(false)
-
+  // const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     // get all users after login
-    setLoading(true)
+    // setLoading(true)
     const getUsers = async () => {
       
       try {
@@ -43,7 +44,7 @@ const Home = () => {
         toast.error(error.message)
         console.log(error)
       } finally {
-        setLoading(false)
+        // setLoading(false)
 
       }
     };
@@ -52,10 +53,20 @@ const Home = () => {
 
   }, [authUser._id])
 
+
+  useEffect(() => {
+
+    socket?.on("newMessage", (newMessage)=>{
+      setUserChats([...userChats,newMessage])
+    })
+    return () => socket?.off("newMessage")
+  }, [userChats,socket])
+  
+
   // Handle Logout 
   const handleLogout = async () => {
 
-    setLoading(true)
+    // setLoading(true)
     try {
       const res = await fetch(`/api/auth/logout`)
       const resData = await res.json();
@@ -71,7 +82,7 @@ const Home = () => {
     } catch (error) {
       toast.error(error.message)
     } finally {
-      setLoading(false)
+      // setLoading(false)
 
     }
 
@@ -83,7 +94,7 @@ const Home = () => {
   const handleChatClick = (user) => {
     setSelectedUser(user)
     const getUserMessages = async () => {
-      setLoading(true)
+      // setLoading(true)
       try {
         const res = await fetch(`/api/messages/${user._id}`, {
           method: "POST",
@@ -104,7 +115,7 @@ const Home = () => {
         toast.error(error.message)
         console.log(error)
       } finally {
-        setLoading(false)
+        // setLoading(false)
 
       }
     };
@@ -117,7 +128,7 @@ const Home = () => {
   const handleSendMessageToUser = () => {
 
     const sendMessage = async () => {
-      setLoading(true)
+      // setLoading(true)
 
       try {
         const res = await fetch(`/api/messages/send/${selectedUser._id}`, {
@@ -136,7 +147,7 @@ const Home = () => {
         toast.error(error.message)
         console.log(error)
       } finally {
-        setLoading(false)
+        // setLoading(false)
 
       }
     }
@@ -153,7 +164,6 @@ const Home = () => {
     return formattedTime
   }
 
-console.log(userChats,'userchats')
   return (
 
     <div className='Home container'>
@@ -161,7 +171,7 @@ console.log(userChats,'userchats')
       <Row className='Row'>
         <Col className='Col'>
           {users?.map((user,index) => {
-            return <div onClick={() => { handleChatClick(user) }} > <Sidebar key={user._id} index={index} user={user} /></div>
+            return <div onClick={() => { handleChatClick(user) }} > <Sidebar key={user._id} index={index} onlineUser={onlineUsers} user={user} /></div>
           })}
         </Col>
 
@@ -186,9 +196,9 @@ console.log(userChats,'userchats')
         </Col>
 
       </Row>
-      {loading ? <div className="loading">
+      {/* {loading ? <div className="loading">
         <Spinner animation="border" /> <p className='m-1' > Loading...</p>
-      </div> : ''}
+      </div> : ''} */}
       <Button className='LogoutBtn' onClick={handleLogout} variant="primary">Logout</Button>
 
     </div>

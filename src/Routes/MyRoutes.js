@@ -4,7 +4,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from '../pages/Login';
 import Home from '../pages/Home';
 import Signup from '../pages/Signup';
-import { AuthContext } from '../context/authContext';
+import { AuthContext } from '../context/AuthContext';
 
 
 const MyRoutes = () => {

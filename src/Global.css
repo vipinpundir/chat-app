@@ -93,6 +93,19 @@
     border-radius: 50%;
     margin-right: 10px;
 }
+.Sidebar .Online::before {
+    content: '';
+    display: block;
+    position: relative;
+    background-color: rgb(131, 247, 86);
+    border: 1px solid black;
+    border-radius: 50%;
+    top: 15px;
+    left: 40px;
+    width: 10px;
+    height: 10px; 
+}
+
 
 .Home .ChatBox {
     width: 100%;
