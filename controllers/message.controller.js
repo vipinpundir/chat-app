@@ -1,12 +1,13 @@
 const Conversation = require("../models/conversation.model");
-const Message = require('../models/message.model')
+const Message = require('../models/message.model');
+const { getReceiverSocketId, io } = require("../socket/socket");
 
 const sendMessage = async (req, res) => {
     try {
-        const { message } = req.body;
+        const { message, senderId } = req.body;
         const { id: receiverId } = req.params;
-        const senderId = req.user._id;
-
+        // const senderId = req.user._id;
+        
         let conversation = await Conversation.findOne({
             participants: { $all: [senderId, receiverId] },
         });
@@ -28,6 +29,11 @@ const sendMessage = async (req, res) => {
         }
 
         // SOCKET IO FUNCTIONALITY WILL GO HERE 
+        const receiverSocketId = getReceiverSocketId(receiverId)
+        if (receiverId){
+            // io.to(socket_id).emit() used to send events to specific client
+            io.to(receiverSocketId).emit("newMessage",newMessage)
+        }
 
         await Promise.all([conversation.save(), newMessage.save()]);
         res.status(201).json(newMessage);
