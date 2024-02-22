@@ -11,18 +11,18 @@ import { SocketContext } from '../context/SocketContext';
 
 const Home = () => {
   const { authUser, setAuthUser } = useContext(AuthContext)
-  const { onlineUsers, socket} = useContext(SocketContext)
+  const { onlineUsers, socket } = useContext(SocketContext)
   const [users, setUsers] = useState([])
   const [userChats, setUserChats] = useState([])
   const [selectedUser, setSelectedUser] = useState()
   const [sendMessageData, setSendMessageData] = useState('')
-  // const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
+
 
   useEffect(() => {
     // get all users after login
-    // setLoading(true)
     const getUsers = async () => {
-      
+
       try {
         const res = await fetch(`/api/users`, {
           method: "POST",
@@ -36,7 +36,6 @@ const Home = () => {
           throw new Error(resData.error)
         }
 
-        console.log(resData, "data")
         setUsers(resData.filterUsers)
 
 
@@ -44,7 +43,7 @@ const Home = () => {
         toast.error(error.message)
         console.log(error)
       } finally {
-        // setLoading(false)
+        setLoading(false)
 
       }
     };
@@ -56,18 +55,19 @@ const Home = () => {
 
   useEffect(() => {
 
-    socket?.on("newMessage", (newMessage)=>{
-      setUserChats([...userChats,newMessage])
+    socket?.on("newMessage", (newMessage) => {
+      setUserChats([...userChats, newMessage])
+      
     })
     return () => socket?.off("newMessage")
-  }, [userChats,socket])
-  
+  }, [userChats, socket])
+
 
   // Handle Logout 
   const handleLogout = async () => {
 
-    // setLoading(true)
     try {
+      setLoading(true)
       const res = await fetch(`/api/auth/logout`)
       const resData = await res.json();
 
@@ -82,7 +82,7 @@ const Home = () => {
     } catch (error) {
       toast.error(error.message)
     } finally {
-      // setLoading(false)
+      setLoading(false)
 
     }
 
@@ -94,8 +94,8 @@ const Home = () => {
   const handleChatClick = (user) => {
     setSelectedUser(user)
     const getUserMessages = async () => {
-      // setLoading(true)
       try {
+        setLoading(true)
         const res = await fetch(`/api/messages/${user._id}`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -115,7 +115,7 @@ const Home = () => {
         toast.error(error.message)
         console.log(error)
       } finally {
-        // setLoading(false)
+        setLoading(false)
 
       }
     };
@@ -128,7 +128,6 @@ const Home = () => {
   const handleSendMessageToUser = () => {
 
     const sendMessage = async () => {
-      // setLoading(true)
 
       try {
         const res = await fetch(`/api/messages/send/${selectedUser._id}`, {
@@ -146,9 +145,6 @@ const Home = () => {
       } catch (error) {
         toast.error(error.message)
         console.log(error)
-      } finally {
-        // setLoading(false)
-
       }
     }
 
@@ -156,12 +152,17 @@ const Home = () => {
     setSendMessageData('')
 
   }
+
   const timeFormatted = (time) => {
-    let timestamp = time;
-    const date = new Date(timestamp);
-    // Get the time in "hh:mm" format
-    const formattedTime = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-    return formattedTime
+    if (time){
+      let timestamp = time;
+      const date = new Date(timestamp);
+      // Get the time in "hh:mm" format
+      const formattedTime = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+      return formattedTime
+    }else{
+      return ''
+    }
   }
 
   return (
@@ -170,8 +171,8 @@ const Home = () => {
 
       <Row className='Row'>
         <Col className='Col'>
-          {users?.map((user,index) => {
-            return <div onClick={() => { handleChatClick(user) }} > <Sidebar key={user._id} index={index} onlineUser={onlineUsers} user={user} /></div>
+          {users?.map((user, index) => {
+            return <div key={user._id} onClick={() => { handleChatClick(user) }} > <Sidebar index={index} onlineUser={onlineUsers} user={user} /></div>
           })}
         </Col>
 
@@ -182,7 +183,7 @@ const Home = () => {
               <div className="Chats my-5">
                 {userChats.length !== 0
                   ? userChats.map((chat) => {
-                    return <li key={chat._id}  className={chat.senderId === authUser._id ? 'Sender' : 'Receiver'}  > <p>{chat.message} </p> <p className='chatTime' >{timeFormatted(chat.updatedAt)}</p> </li>
+                    return <li key={chat._id} className={chat.senderId === authUser._id ? 'Sender' : 'Receiver'}  > <p>{chat.message} </p> <p className='chatTime' >{timeFormatted(chat.updatedAt)}</p> </li>
                   })
                   : <><p className='text-center' >Send a message to start conversation...</p></>}
               </div>
@@ -196,9 +197,9 @@ const Home = () => {
         </Col>
 
       </Row>
-      {/* {loading ? <div className="loading">
+      {loading ? <div className="loading">
         <Spinner animation="border" /> <p className='m-1' > Loading...</p>
-      </div> : ''} */}
+      </div> : ''}
       <Button className='LogoutBtn' onClick={handleLogout} variant="primary">Logout</Button>
 
     </div>
