@@ -258,5 +258,8 @@
         max-width: 80vw !important;
         word-wrap: break-word;
     }
+    .Home .ChatBox {
+        height: 65vh;
+    }
 
 }

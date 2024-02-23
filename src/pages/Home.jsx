@@ -58,7 +58,7 @@ const Home = () => {
 
     socket?.on("newMessage", (newMessage) => {
       setUserChats([...userChats, newMessage])
-      
+
     })
     return () => socket?.off("newMessage")
   }, [userChats, setUserChats, socket])
@@ -128,42 +128,46 @@ const Home = () => {
   // handleSendMessageToUser
   const handleSendMessageToUser = () => {
 
-    const sendMessage = async () => {
+    if (sendMessageData.length !== 0) {
+      const sendMessage = async () => {
 
-      try {
-        const res = await fetch(`/api/messages/send/${selectedUser._id}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ "message": sendMessageData, "senderId": authUser._id })
-        })
+        try {
+          const res = await fetch(`/api/messages/send/${selectedUser._id}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ "message": sendMessageData, "senderId": authUser._id })
+          })
 
-        const resData = await res.json();
+          const resData = await res.json();
 
-        if (resData.error) {
-          throw new Error(resData.error)
+          if (resData.error) {
+            throw new Error(resData.error)
+          }
+
+          setUserChats([...userChats, resData])
+
+        } catch (error) {
+          toast.error(error.message)
+          console.log(error)
         }
-
-        setUserChats([...userChats,resData])
-
-      } catch (error) {
-        toast.error(error.message)
-        console.log(error)
       }
-    }
 
-    sendMessage()
-    setSendMessageData('')
+      sendMessage()
+      setSendMessageData('')
+    } else {
+      toast.error("enter message")
+    }
 
   }
 
   const timeFormatted = (time) => {
-    if (time){
+    if (time) {
       let timestamp = time;
       const date = new Date(timestamp);
       // Get the time in "hh:mm" format
       const formattedTime = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
       return formattedTime
-    }else{
+    } else {
       return ''
     }
   }
