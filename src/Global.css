@@ -1,9 +1,12 @@
+/* WHOLE PROJECT CSS ARE HERE  */
+
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
 
+/* CSS FOR APP FOR BG  */
 .App {
     min-height: 100vh;
     min-width: 100vw;
@@ -23,6 +26,8 @@
     z-index: 0;
 }
 
+
+/* CSS FOR LOGIN AND SIGN UP PAGE  */
 .Login,
 .Signup {
     display: flex;
@@ -42,6 +47,8 @@
     backdrop-filter: blur(5px);
 }
 
+
+/* CSS FOR HOME PAGE  */
 .Home {
     position: relative;
     z-index: 0;
@@ -81,6 +88,7 @@
     width: 0px;
 }
 
+/* CSS FOR SIDEBAR COMPONENT  */
 .Sidebar .sidebar {
     width: 100%;
     height: fit-content;
@@ -93,6 +101,7 @@
     border-radius: 50%;
     margin-right: 10px;
 }
+
 .Sidebar .Online::before {
     content: '';
     display: block;
@@ -103,10 +112,10 @@
     top: 15px;
     left: 40px;
     width: 10px;
-    height: 10px; 
+    height: 10px;
 }
 
-
+/* CSS FOR HOME/CHAT BOX  */
 .Home .ChatBox {
     width: 100%;
     height: 72vh;
@@ -140,6 +149,7 @@
     align-self: flex-end;
 }
 
+/* CSS FOR CHAT MESSAGES  */
 .Chats .Sender :nth-child(1),
 .Chats .Receiver :nth-child(1) {
 
@@ -147,6 +157,8 @@
     padding: 6px 20px;
     border-radius: 20px;
 }
+
+/* CSS FOR CHAT MESSAGES TIME  */
 .Chats .Sender :nth-child(2) {
     position: relative;
     display: flex;
@@ -155,14 +167,19 @@
     margin-bottom: 0px;
     margin-right: 10px;
     opacity: 0.3;
+    z-index: -1;
 }
+
 .Chats .Receiver :nth-child(2) {
+    position: relative;
     margin-top: -16px;
     margin-bottom: 0px;
     opacity: 0.3;
     margin-left: 10px;
+    z-index: -1;
 }
 
+/* FOR CHAT BOX INPUTS  */
 .ChatBox .Chat-input {
     position: absolute;
     width: 33vw;
@@ -171,6 +188,7 @@
     display: flex;
     justify-content: space-between;
     gap: 5px;
+    background-color: #fff;
 }
 
 .ChatBox .Chat-input input {
@@ -186,6 +204,7 @@
 
 .ChatBox .Chat-input Button {
     max-width: fit-content;
+    margin: 5px;
 }
 
 .loading {
@@ -193,4 +212,51 @@
     background-color: #00000067;
     padding: 10px 20px;
     position: fixed;
+}
+
+/* CSS FOR MOBILE screen WIDTH:-775PX  */
+@media (max-width: 770px) {
+    .Home .Row {
+        width: 90vw;
+        height: 72vh;
+    }
+
+    .Home .Row .Col {
+        position: absolute;
+        top: -90px;
+        width: 100%;
+        display: flex;
+        overflow: scroll;
+        height: fit-content;
+    }
+
+    .Home .ChatBox h6 {
+        width: 93% !important;
+        background-color: black !important;
+    }
+
+    .Home .Row hr {
+        margin: 0;
+        display: none;
+    }
+
+    .ChatBox .Chat-input {
+        width: 93% !important;
+    }
+
+    .Home .Row .Col {
+        border-right: none;
+    }
+
+    .Home .LogoutBtn {
+        left: 5vw;
+        bottom: 6vh;
+    }
+
+    .Chats .Sender :nth-child(1),
+    .Chats .Receiver :nth-child(1) {
+        max-width: 80vw !important;
+        word-wrap: break-word;
+    }
+
 }

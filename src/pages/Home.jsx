@@ -53,6 +53,7 @@ const Home = () => {
   }, [authUser._id])
 
 
+  // handle socket.io live messaging
   useEffect(() => {
 
     socket?.on("newMessage", (newMessage) => {
@@ -60,7 +61,7 @@ const Home = () => {
       
     })
     return () => socket?.off("newMessage")
-  }, [userChats, socket])
+  }, [userChats, setUserChats, socket])
 
 
   // Handle Logout 
@@ -141,6 +142,8 @@ const Home = () => {
         if (resData.error) {
           throw new Error(resData.error)
         }
+
+        setUserChats([...userChats,resData])
 
       } catch (error) {
         toast.error(error.message)
