@@ -1,9 +1,13 @@
 const {app, server} = require('./socket/socket')
 const express = require("express");
+const cors = require('cors');
 
 
 const cookieParser = require("cookie-parser")
 require('dotenv').config();
+
+// Use cors middleware
+app.use(cors());
 
 const authRoutes = require("./routes/auth.routes");
 const messageRoutes = require("./routes/message.routes");
