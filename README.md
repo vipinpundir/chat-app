@@ -1,6 +1,8 @@
 # Chat Application using MERN Stack
 
 A simple chat application developed using the MERN (MongoDB, Express.js, React, Node.js) stack. Users can register, log in, and exchange messages with other registered users.
+![alt text](image-1.png)
+![alt text](image.png)
 
 ## Table of Contents
 - [Features](#features)
