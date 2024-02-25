@@ -20,10 +20,6 @@ const port = process.env.PORT || 8080
 app.use(express.json()) // to parse the incoming request with JSON payloads (from req.body)
 app.use(cookieParser())
 
-app.get("/",(req, res)=>{
-    res.send("server working on ",port)
-})
-
 app.use("/api/auth", authRoutes)
 app.use("/api/messages", messageRoutes)
 app.use("/api/users", usersRoutes)
